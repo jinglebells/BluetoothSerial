@@ -39,9 +39,9 @@
 
     <platform name="ios">
         
-        <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription ">
-			<string>This app needs access to the bluetooth radio to interact with external bluetooth devices.</string>
-		</config-file>
+        <edit-config target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription" mode="merge" overwrite="true">
+	    <string>This app needs access to the bluetooth radio to interact with external bluetooth devices.</string>
+	</edit-config>
         
         <config-file target="config.xml" parent="/widget">
             <feature name="BluetoothSerial">
