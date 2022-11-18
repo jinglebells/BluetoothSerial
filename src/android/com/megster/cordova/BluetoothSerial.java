@@ -86,6 +86,7 @@ public class BluetoothSerial extends CordovaPlugin {
 
     // Android 23 requires user to explicitly grant permission for location to discover unpaired
     private static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int CHECK_PERMISSIONS_REQ_CODE = 2;
     private CallbackContext permissionCallback;
 
@@ -213,11 +214,20 @@ public class BluetoothSerial extends CordovaPlugin {
 
         } else if (action.equals(DISCOVER_UNPAIRED)) {
 
-            if (cordova.hasPermission(ACCESS_COARSE_LOCATION)) {
-                discoverUnpairedDevices(callbackContext);
-            } else {
-                permissionCallback = callbackContext;
-                cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_COARSE_LOCATION);
+            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                if (cordova.hasPermission(ACCESS_FINE_LOCATION)) {
+                    discoverUnpairedDevices(callbackContext);
+                } else {
+                    permissionCallback = callbackContext;
+                    cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_FINE_LOCATION);
+                }
+            }else{
+                if (cordova.hasPermission(ACCESS_COARSE_LOCATION)) {
+                    discoverUnpairedDevices(callbackContext);
+                } else {
+                    permissionCallback = callbackContext;
+                    cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_COARSE_LOCATION);
+                }
             }
 
         } else if (action.equals(SET_DEVICE_DISCOVERED_LISTENER)) {
@@ -301,7 +311,7 @@ public class BluetoothSerial extends CordovaPlugin {
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     try {
-                    	JSONObject o = deviceToJSON(device);
+                        JSONObject o = deviceToJSON(device);
                         unpairedDevices.put(o);
                         if (ddc != null) {
                             PluginResult res = new PluginResult(PluginResult.Status.OK, o);
@@ -359,9 +369,9 @@ public class BluetoothSerial extends CordovaPlugin {
     // Consider replacing with normal callbacks
     private final Handler mHandler = new Handler() {
 
-         public void handleMessage(Message msg) {
-             switch (msg.what) {
-                 case MESSAGE_READ:
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_READ:
                     buffer.append((String)msg.obj);
 
                     if (dataAvailableCallback != null) {
@@ -369,13 +379,13 @@ public class BluetoothSerial extends CordovaPlugin {
                     }
 
                     break;
-                 case MESSAGE_READ_RAW:
+                case MESSAGE_READ_RAW:
                     if (rawDataAvailableCallback != null) {
                         byte[] bytes = (byte[]) msg.obj;
                         sendRawDataToSubscriber(bytes);
                     }
                     break;
-                 case MESSAGE_STATE_CHANGE:
+                case MESSAGE_STATE_CHANGE:
 
                     if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
@@ -406,8 +416,8 @@ public class BluetoothSerial extends CordovaPlugin {
                     String message = msg.getData().getString(TOAST);
                     notifyConnectionLost(message);
                     break;
-             }
-         }
+            }
+        }
     };
 
     private void notifyConnectionLost(String error) {
@@ -466,8 +476,7 @@ public class BluetoothSerial extends CordovaPlugin {
     }
 
     @Override
-    public void onRequestPermissionResult(int requestCode, String[] permissions,
-                                          int[] grantResults) throws JSONException {
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
 
         for(int result:grantResults) {
             if(result == PackageManager.PERMISSION_DENIED) {

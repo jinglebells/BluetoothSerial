@@ -32,6 +32,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.BLUETOOTH" />
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
         </config-file>
 
@@ -43,10 +44,10 @@
 	<preference name="BLUETOOTH_ALWAYS_USAGE_DESCRIPTION" default="Needs to connect to your bluetooth devices."/>
 
 	<config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
-	    <string>$BLUETOOTH_USAGE_DESCRIPTION</string>
+        <string>$BLUETOOTH_USAGE_DESCRIPTION</string>
 	</config-file>
 	<config-file target="*-Info.plist" parent="NSBluetoothAlwaysUsageDescription">
-	    <string>$BLUETOOTH_ALWAYS_USAGE_DESCRIPTION</string>
+        <string>$BLUETOOTH_ALWAYS_USAGE_DESCRIPTION</string>
 	</config-file>
         
         <config-file target="config.xml" parent="/widget">
@@ -72,18 +73,18 @@
 
     <platform name="wp8">
         <config-file target="config.xml" parent="/*">
-             <feature name="BluetoothSerial">
-                 <param name="wp-package" value="BluetoothSerial"/>
-             </feature>
-         </config-file>
+            <feature name="BluetoothSerial">
+                <param name="wp-package" value="BluetoothSerial"/>
+            </feature>
+        </config-file>
 
 
-         <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
-             <Capability Name="ID_CAP_PROXIMITY" />
-         </config-file>
+        <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+            <Capability Name="ID_CAP_PROXIMITY" />
+        </config-file>
 
-         <source-file src="src/wp/BluetoothSerial.cs" />
-         <source-file src="src/wp/BluetoothConnectionManager.cs" />
+        <source-file src="src/wp/BluetoothSerial.cs" />
+        <source-file src="src/wp/BluetoothConnectionManager.cs" />
 
     </platform>
 
