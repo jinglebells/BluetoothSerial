@@ -31,22 +31,21 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Request legacy Bluetooth permissions on older devices. -->
-            <uses-permission android:name="android.permission.BLUETOOTH"
-                android:maxSdkVersion="30" />
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-                android:maxSdkVersion="30" />
+            <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
             <!-- Needed to looks for Bluetooth devices.-->
-            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
 
-            <!-- Needed only if your app communicates with already-paired Bluetooth
-            devices. -->
+            <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
             <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+            <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
+            <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
             <!-- Needed only if your app uses Bluetooth scan results to derive physical location. -->
-            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            
         </config-file>
 
     </platform>
