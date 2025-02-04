@@ -612,8 +612,7 @@ public class BluetoothSerial extends CordovaPlugin {
         }
 
         switch(requestCode) {
-            case CHECK_PERMISSIONS_REQ_CODE:
-                case CHECK_PERMISSIONS_REQ_CODE_BLUETOOTH_SCAN:
+            case CHECK_PERMISSIONS_REQ_CODE_BLUETOOTH_SCAN:
                 logMessage = "User *granted* scan permission";
                 pluginResultMessage = "Scan permission is granted.";
                 break;
