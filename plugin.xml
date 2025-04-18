@@ -35,13 +35,13 @@
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30"/>
 
             <!-- Needed to looks for Bluetooth devices.-->
-            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" tools:targetApi="s"/>
 
             <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
             <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 			
 			<!--If your app supports a service and can run on Android 10 (API level 29) or Android 11, you must also declare the ACCESS_BACKGROUND_LOCATION permission to discover Bluetooth devices. -->
-			<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+			<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" android:maxSdkVersion="30"/>
 			
             <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
             <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
@@ -53,8 +53,11 @@
          Bluetooth scan results and doesn't need location access for any other
          purpose. -->
 		 
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30"/>
+			
+			 <!-- Since Bluetooth is a basic requirement for our app -->
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
             
         </config-file>
 
